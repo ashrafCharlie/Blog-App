@@ -16,7 +16,7 @@ class EmailSignupBloc extends Bloc<EmailSignupEvent, EmailSignupState> {
         );
          emit(EmailSignUpSuccess());
       } catch (e) {
-        emit(EmailSignUpError(errorMsg: "SignUp failed...Error: $e"));
+        emit(EmailSignUpError(errorMsg:"$e"));
       }
     });
   }
