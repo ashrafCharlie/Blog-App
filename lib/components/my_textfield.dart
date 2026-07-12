@@ -6,7 +6,7 @@ class MyTextfield extends StatelessWidget {
   final bool obscureText;
  
 
-  MyTextfield({
+ const MyTextfield({
     required this.controller,
     required this.hintText,
     this.obscureText = false,
@@ -17,6 +17,7 @@ class MyTextfield extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextField(
+        controller: controller,
    
         style: TextStyle(color: Colors.black),
         obscureText: obscureText,

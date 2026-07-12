@@ -1,6 +1,7 @@
 import 'package:blog_app/bloc/App_auth_bloc/app_auth_bloc.dart';
 import 'package:blog_app/bloc/App_auth_bloc/app_auth_event.dart';
 import 'package:blog_app/bloc/App_auth_bloc/app_auth_state.dart';
+import 'package:blog_app/bloc/GoogleSignBloc/google_sign_bloc.dart';
 import 'package:blog_app/bloc/email_login_bloc/email_login_bloc.dart';
 import 'package:blog_app/bloc/email_signup_bloc/email_signup_bloc.dart';
 import 'package:blog_app/screens/auth_page.dart';
@@ -28,9 +29,13 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) =>
-              AppAuthBloc(user: FirebaseRepo().currentUser)
+              AppAuthBloc()
                 ..add(AppAuthencationEvent()),
         ),
+        BlocProvider(
+          create: (context)=> GoogleSignBloc(firebaseRepo: FirebaseRepo()),
+          )
+        ,
         BlocProvider(
           create: (context) => EmailSignupBloc(firebaseRepo: FirebaseRepo()),
           child: SignupScreen(),
