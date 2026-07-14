@@ -11,6 +11,7 @@ import 'package:blog_app/components/custom_divider.dart';
 import 'package:blog_app/components/my_button.dart';
 import 'package:blog_app/components/my_snacbar.dart';
 import 'package:blog_app/components/my_textfield.dart';
+import 'package:blog_app/repository/firebase_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,11 +26,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController pwController = TextEditingController();
+  final TextEditingController resetEmailController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
     pwController.dispose();
+    resetEmailController.dispose();
     super.dispose();
   }
 
@@ -92,7 +95,59 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: EdgeInsetsGeometry.only(right: 25.0),
                     child: GestureDetector(
                       onTap: () {
-                        print("forgot passwrod printed");
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            content: Text("Reset Your Password"),
+
+                            actions: [
+                              TextField(
+                                controller: resetEmailController,
+                                decoration: InputDecoration(
+                                  hintText: "Enter Your email",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15.0),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("cancel"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      final firebaseRepo = FirebaseRepo();
+                                      try {
+                                        if (resetEmailController.text.isEmpty) {
+                                          return mySnacbar(
+                                            context,
+                                            "Enter an email",
+                                          );
+                                        }
+                                        final String resetmsg =
+                                            await firebaseRepo.resetPassword(
+                                              resetEmailController.text.trim(),
+                                            );
+                                        resetEmailController.clear();
+                                        Navigator.pop(context);
+                                        mySnacbar(context, resetmsg);
+                                      } catch (e) {
+                                        mySnacbar(context, e.toString());
+                                      }
+                                    },
+                                    child: Text("Send Reset Link"),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       child: Text("Forget password?"),
                     ),
@@ -144,7 +199,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 BlocBuilder<GoogleSignBloc, GoogleSignState>(
                   builder: (context, state) {
                     if (state is GoogleSignLoading) {
-                      return Center(child: CircularProgressIndicator(color: Colors.purple,));
+                      return Center(
+                        child: CircularProgressIndicator(color: Colors.purple),
+                      );
                     }
                     return ContinueWithGoogle(
                       onTap: () {

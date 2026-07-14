@@ -6,15 +6,36 @@ import 'package:blog_app/components/my_snacbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+        toolbarHeight: 80.0,
         centerTitle: true,
-        title: Text("Home Screen"),
+        title: BlocBuilder<AppAuthBloc, AppAuthState>(
+          builder: (context, state) {
+            if (state is AppAuthSuccess) {
+              return Column(
+                children: [
+                  Text("Hello ${state.userName.toString()}"),
+                  Text("email : ${state.userEmail.toString()}"),
+                ],
+              );
+            } else {
+              return Text("user");
+            }
+          },
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -47,7 +68,26 @@ class HomeScreen extends StatelessWidget {
             return mySnacbar(context, state.userDeleteError.toString());
           }
         },
-        child: SingleChildScrollView(),
+
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextField(
+                keyboardType: TextInputType.multiline,
+
+                controller: textController,
+                minLines: 1,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.grey,
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
