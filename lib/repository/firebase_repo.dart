@@ -1,4 +1,3 @@
-import 'package:blog_app/core/constants.dart';
 import 'package:blog_app/models/user_data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,11 +24,11 @@ class FirebaseRepo {
     }
   }
 
-  Future<UserDataModel> fetchUserData(String id) async {
+  Future<UserDataModel> fetchUserData({required String id}) async {
     try {
       final doc = await _firestore.collection('users').doc(id).get();
       if (doc.exists || doc.data() != null) {
-        return UserDataModel.fromJson(doc.data()!);
+        return UserDataModel.fromMap(doc.data()!);
       }
       throw Exception("Data not found...");
     } catch (e) {
@@ -103,8 +102,6 @@ class FirebaseRepo {
     }
   }
 
-
-
   Future<UserCredential> signInWithGoogle() async {
     UserCredential userCredential;
     try {
@@ -123,10 +120,10 @@ class FirebaseRepo {
 
         final googleAuth = user.authentication;
 
-      final  credential = GoogleAuthProvider.credential(
+        final credential = GoogleAuthProvider.credential(
           idToken: googleAuth.idToken,
         );
-         userCredential = await _auth.signInWithCredential(credential);
+        userCredential = await _auth.signInWithCredential(credential);
       }
       final userDoc = await _firestore
           .collection('users')
@@ -147,7 +144,6 @@ class FirebaseRepo {
     }
   }
 
-
   Future<void> googleLogout() async {
     try {
       await GoogleSignIn.instance.disconnect();
@@ -157,4 +153,15 @@ class FirebaseRepo {
       throw Exception("Logout failed.. error : $e");
     }
   }
+
+  //resetlink
+  Future<String> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return "Resent Link Sended To your Email";
+    } catch (e) {
+      throw Exception("Password Reset Failed error: $e");
+    }
+  }
+
 }

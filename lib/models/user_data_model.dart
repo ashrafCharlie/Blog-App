@@ -3,10 +3,10 @@ class UserDataModel {
   final String email;
   UserDataModel({required this.name, required this.email});
 
-  factory UserDataModel.fromJson(Map<String, dynamic> json) {
+  factory UserDataModel.fromMap(Map<String, dynamic> map) {
     return UserDataModel(
-      name: json['name'] ?? '',
-      email: json['email'] ?? '',
+      name: map['name'] ?? '',
+      email: map['email'] ?? '',
     );
   }
 

@@ -6,11 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AppAuthBloc extends Bloc<AppAuthEvent, AppAuthState> {
   final FirebaseRepo firebaseRepo = FirebaseRepo();
   AppAuthBloc() : super(AppAuthInitState()) {
-    on<AppAuthencationEvent>((event, emit) {
+    on<AppAuthencationEvent>((event, emit) async {
       try {
         final user = firebaseRepo.currentUser;
         if (user != null) {
-          emit(AppAuthSuccess());
+        final userdetails = await  firebaseRepo.fetchUserData(id: user.uid);
+          emit(AppAuthSuccess(userdetails.name,userdetails.email));
         } else {
           emit(AppAuthUnSuccess());
         }
