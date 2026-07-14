@@ -6,7 +6,8 @@ import 'package:blog_app/bloc/GoogleSignBloc/google_sign_state.dart';
 import 'package:blog_app/bloc/email_signup_bloc/email_signup_bloc.dart';
 import 'package:blog_app/bloc/email_signup_bloc/email_signup_event.dart';
 import 'package:blog_app/bloc/email_signup_bloc/email_signup_state.dart';
-import 'package:blog_app/components/continue_with_google.dart';
+import 'package:blog_app/components/continue_with_google_button.dart';
+import 'package:blog_app/components/custom_divider.dart';
 import 'package:blog_app/components/my_alert_dailog.dart';
 import 'package:blog_app/components/my_button.dart';
 import 'package:blog_app/components/my_snacbar.dart';
@@ -157,10 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ],
                 ),
                 SizedBox(height: 15.0),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Divider(color: Colors.grey),
-                ),
+                CustomDivider("Or"),
                 BlocBuilder<GoogleSignBloc, GoogleSignState>(
                   builder: (context, state) {
                     if (state is GoogleSignLoading) {
