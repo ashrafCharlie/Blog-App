@@ -1,6 +1,9 @@
 import 'package:blog_app/bloc/App_auth_bloc/app_auth_bloc.dart';
 import 'package:blog_app/bloc/App_auth_bloc/app_auth_event.dart';
 import 'package:blog_app/bloc/App_auth_bloc/app_auth_state.dart';
+import 'package:blog_app/bloc/send_blog_bloc/send_blog_bloc.dart';
+import 'package:blog_app/bloc/send_blog_bloc/send_blog_event.dart';
+import 'package:blog_app/bloc/send_blog_bloc/send_blog_state.dart';
 import 'package:blog_app/components/my_alert_dailog.dart';
 import 'package:blog_app/components/my_snacbar.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String username = '';
   final textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -25,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: BlocBuilder<AppAuthBloc, AppAuthState>(
           builder: (context, state) {
             if (state is AppAuthSuccess) {
+              username = state.userName;
               return Column(
                 children: [
                   Text("Hello ${state.userName.toString()}"),
@@ -59,33 +64,80 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: BlocListener<AppAuthBloc, AppAuthState>(
-        listener: (context, state) {
-          if (state is AppLogoutError) {
-            return mySnacbar(context, state.logoutErrorMsg.toString());
-          }
-          if (state is AppUserDeleteError) {
-            return mySnacbar(context, state.userDeleteError.toString());
-          }
-        },
-
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<AppAuthBloc, AppAuthState>(
+            listener: (context, state) {
+              if (state is AppLogoutError) {
+                return mySnacbar(context, state.logoutErrorMsg.toString());
+              }
+              if (state is AppUserDeleteError) {
+                return mySnacbar(context, state.userDeleteError.toString());
+              }
+            },
+          ),
+          BlocListener<SendBlogBloc, SendBlogState>(
+            listener: (context, state) {
+              if (state is SendBlogError) {
+                mySnacbar(context, state.errorMsg.toString());
+              }
+              if (state is SendBlogSuccess) {
+                mySnacbar(context, "Blog post Success");
+                textController.clear();
+              }
+            },
+          ),
+        ],
         child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextField(
-                keyboardType: TextInputType.multiline,
-
-                controller: textController,
-                minLines: 1,
-                maxLines: 5,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.grey,
-                  border: OutlineInputBorder(),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(25.0),
+                  child: Text(
+                    "Text(String data, {Key? key, TextStyle? style, StrutStyle? strutStyle, TextAlign? textAlign, TextDirection? textDirection, Locale? locale, bool? softWrap, TextOverflow? overflow, double? textScaleFactor, TextScaler? textScaler, int? maxLines, String? semanticsLabel, String? semanticsIdentifier, TextWidthBasis? textWidthBasis, TextHeightBehavior? textHeightBehavior, Color? selectionColor})Text(String data, {Key? key, TextStyle? style, StrutStyle? strutStyle, TextAlign? textAlign, TextDirection? textDirection, Locale? locale, bool? softWrap, TextOverflow? overflow, double? textScaleFactor, TextScaler? textScaler, int? maxLines, String? semanticsLabel, String? semanticsIdentifier, TextWidthBasis? textWidthBasis, TextHeightBehavior? textHeightBehavior, Color? selectionColor})Text(String data, {Key? key, TextStyle? style, StrutStyle? strutStyle, TextAlign? textAlign, TextDirection? textDirection, Locale? locale, bool? softWrap, TextOverflow? overflow, double? textScaleFactor, TextScaler? textScaler, int? maxLines, String? semanticsLabel, String? semanticsIdentifier, TextWidthBasis? textWidthBasis, TextHeightBehavior? textHeightBehavior, Color? selectionColor})Text(String data, {Key? key, TextStyle? style, StrutStyle? strutStyle, TextAlign? textAlign, TextDirection? textDirection, Locale? locale, bool? softWrap, TextOverflow? overflow, double? textScaleFactor, TextScaler? textScaler, int? maxLines, String? semanticsLabel, String? semanticsIdentifier, TextWidthBasis? textWidthBasis, TextHeightBehavior? textHeightBehavior, Color? selectionColor})Text(String data, {Key? key, TextStyle? style, StrutStyle? strutStyle, TextAlign? textAlign, TextDirection? textDirection, Locale? locale, bool? softWrap, TextOverflow? overflow, double? textScaleFactor, TextScaler? textScaler, int? maxLines, String? semanticsLabel, String? semanticsIdentifier, TextWidthBasis? textWidthBasis, TextHeightBehavior? textHeightBehavior, Color? selectionColor})Text(String data, {Key? key, TextStyle? style, StrutStyle? strutStyle, TextAlign? textAlign, TextDirection? textDirection, Locale? locale, bool? softWrap, TextOverflow? overflow, double? textScaleFactor, TextScaler? textScaler, int? maxLines, String? semanticsLabel, String? semanticsIdentifier, TextWidthBasis? textWidthBasis, TextHeightBehavior? textHeightBehavior, Color? selectionColor})Text(String data, {Key? key, TextStyle? style, StrutStyle? strutStyle, TextAlign? textAlign, TextDirection? textDirection, Locale? locale, bool? softWrap, TextOverflow? overflow, double? textScaleFactor, TextScaler? textScaler, int? maxLines, String? semanticsLabel, String? semanticsIdentifier, TextWidthBasis? textWidthBasis, TextHeightBehavior? textHeightBehavior, Color? selectionColor})",
+                  ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    controller: textController,
+                    minLines: 1,
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                      hintText: "Write a blog here!",
+                      hintStyle: TextStyle(
+                        color: Colors.grey[100],
+                        fontSize: 25.0,
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey[600],
+                      border: OutlineInputBorder(),
+                      suffix: BlocBuilder<SendBlogBloc, SendBlogState>(
+                        builder: (context, state) {
+                          if (state is SendBlogLoading) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          return IconButton(
+                            onPressed: () {
+                              context.read<SendBlogBloc>().add(
+                                SendBlogEventClikced(
+                                  blogText: textController.text.trim(),
+                                  sender: username,
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.send),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

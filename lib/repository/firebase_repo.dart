@@ -1,3 +1,4 @@
+import 'package:blog_app/core/display_data_model.dart';
 import 'package:blog_app/models/user_data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -164,4 +165,12 @@ class FirebaseRepo {
     }
   }
 
+  //send blog  to firestore
+  Future<void> sendBlog({required DisplayDataModel blogsData}) async {
+    try {
+      await _firestore.collection('blogsdata').add(blogsData.toMap());
+    } catch (e) {
+      throw Exception("Blog post Failed, $e");
+    }
+  }
 }
