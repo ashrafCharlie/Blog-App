@@ -3,7 +3,7 @@ import 'package:blog_app/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
-  AuthPage({super.key});
+ const AuthPage({super.key});
 
   @override
   State<AuthPage> createState() => _AuthPageState();

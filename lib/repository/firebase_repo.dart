@@ -1,4 +1,4 @@
-import 'package:blog_app/core/display_data_model.dart';
+import 'package:blog_app/models/display_data_model.dart';
 import 'package:blog_app/models/user_data_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -166,11 +166,31 @@ class FirebaseRepo {
   }
 
   //send blog  to firestore
-  Future<void> sendBlog({required DisplayDataModel blogsData}) async {
+  Future<void> sendBlog({
+    required String blogText,
+    required String sender,
+  }) async {
     try {
-      await _firestore.collection('blogsdata').add(blogsData.toMap());
+      await _firestore.collection('blogsdata').add({
+        'blogText': blogText,
+        'sender': sender,
+        'createdAt': FieldValue.serverTimestamp(),
+        'sendId': currentUser!.uid,
+      });
     } catch (e) {
       throw Exception("Blog post Failed, $e");
     }
+  }
+
+  //fetchBlog data
+  Stream<List<DisplayDataModel>> fetchBlogData() {
+    return _firestore
+        .collection('blogsdata')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) {
+          return snapshot.docs.map((doc)=> DisplayDataModel.fromMap(doc.data())
+          ).toList();
+        });
   }
 }

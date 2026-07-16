@@ -1,2 +1,2 @@
 abstract class FetchBlogEvent {}
-class FetchBlogEventClicked{}
+class FetchBlogEventClicked extends FetchBlogEvent{}

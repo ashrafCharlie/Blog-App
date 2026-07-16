@@ -135,9 +135,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                               resetEmailController.text.trim(),
                                             );
                                         resetEmailController.clear();
+                                        if (!mounted) return;
                                         Navigator.pop(context);
                                         mySnacbar(context, resetmsg);
                                       } catch (e) {
+                                        if (!mounted) return;
                                         mySnacbar(context, e.toString());
                                       }
                                     },
