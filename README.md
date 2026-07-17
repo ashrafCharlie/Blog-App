@@ -19,7 +19,7 @@ A modern, high-performance Flutter application built to read, write, and manage 
 - **Authentication:** [Firebase Auth](https://pub.dev/packages/firebase_auth) & [Google Sign-In](https://pub.dev/packages/google_sign_in)
 - **Database:** [Cloud Firestore](https://pub.dev/packages/cloud_firestore)
 - **Utilities:** [Intl Package](https://pub.dev/packages/intl) (For Date & Time Parsing)
-- **State management: ** [BloC](https://pub.dev/packages/flutter_bloc)
+- **State management:** [BloC](https://pub.dev/packages/flutter_bloc)
 ---
 
 ##  Getting Started
