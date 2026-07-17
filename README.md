@@ -3,6 +3,32 @@
 A modern, high-performance Flutter application built to read, write, and manage blog posts seamlessly. The app leverages Firebase for secure user authentication and Cloud Firestore as a real-time reactive backend database.
 
 ---
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="screenShorts/Email_password_Signup.png" width="220" alt="Email SingUp"><br>
+      <sub><b>Email-signup</b></sub>
+    </td>
+    <td align="center">
+      <img src="screenShorts/Email_password_login.png" width="220" alt="Email Login Screen"><br>
+      <sub><b>Email-Login</b></sub>
+    </td>
+    <td align="center">
+      <img src="screenShorts/GoogleSign.png" width="220" alt="Google signin "><br>
+      <sub><b>Write Blog</b></sub>
+    </td>
+
+  <tr>
+   <td align="center">
+      <img src="screenShorts/PasswordReset.png" width="220" alt="Password reset "><br>
+      <sub><b>PasswordReset</b></sub>
+    </td>
+   <td align="center">
+      <img src="screenShorts/writingBlog.png" width="220" alt="Blog feed"><br>
+      <sub><b>Blog-feed</b></sub>
+    </td>
+  </tr>
+</table>
 
 ##  Features
 
