@@ -29,4 +29,5 @@ Follow these instructions to get the project up and running on your local machin
 
 git clone [https://github.com/ashrafCharlie/Blog-Posting-App.git](https://github.com/ashrafCharlie/Blog-Posting-App.git)
 
+### 2. write this command on your Terminal
 cd blog_app
