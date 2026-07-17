@@ -27,6 +27,6 @@ Follow these instructions to get the project up and running on your local machin
 
 ### 1. Clone the Repository
 
-git clone [https://github.com/ashrafCharlie/blog_app.git](https://github.com/YOUR_GITHUB_USERNAME/blog_app.git)
+git clone [https://github.com/ashrafCharlie/blog_app.git](https://github.com/ashrafCharlie/blog_app.git)
 
 cd blog_app
