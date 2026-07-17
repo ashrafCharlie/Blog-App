@@ -9,6 +9,7 @@ A modern, high-performance Flutter application built to read, write, and manage 
 - **Google Authentication:** Secure and easy one-click sign-in using Google Authentication (`Firebase Auth` & `google_sign_in`), optimized for both Web (Popup) and Mobile environments.
 - **Real-time Blog Feed:** Instantly streams and syncs blog posts directly from `Cloud Firestore`.
 - **Elegant Timestamp Formatting:** Utilizes the `intl` package to convert raw database timestamps into highly readable, user-friendly formats.
+- **State Management: ** Managed state usign Bloc With Clean Architechture
 
 ---
 
@@ -18,7 +19,7 @@ A modern, high-performance Flutter application built to read, write, and manage 
 - **Authentication:** [Firebase Auth](https://pub.dev/packages/firebase_auth) & [Google Sign-In](https://pub.dev/packages/google_sign_in)
 - **Database:** [Cloud Firestore](https://pub.dev/packages/cloud_firestore)
 - **Utilities:** [Intl Package](https://pub.dev/packages/intl) (For Date & Time Parsing)
-
+- ""State management: ** [BloC](https://pub.dev/packages/flutter_bloc)
 ---
 
 ##  Getting Started
