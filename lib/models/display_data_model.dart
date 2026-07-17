@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class DisplayDataModel {
   final String blogText;
   final String sender;
   final String senderId;
-  final DateTime createdAt;
+  final DateTime? createdAt;
   DisplayDataModel({
     required this.blogText,
     required this.sender,
@@ -14,7 +16,9 @@ class DisplayDataModel {
       blogText: map['blogText'] ?? '',
       sender: map['sender'] ?? '',
       senderId: map['sendId'] ?? '',
-      createdAt: map['createdAt'] ,
+      createdAt: map['createdAt'] != null 
+    ? (map['createdAt'] as Timestamp).toDate() 
+    : null,
     );
   }
 }
